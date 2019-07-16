@@ -11,7 +11,7 @@ class UsersController extends Controller
     {
         // except 设定指定动作不使用中间件进行过滤
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store']
+            'except' => ['show', 'create', 'store', 'index']
         ]);
 
         // 设定只允许未登录用户操作
@@ -75,5 +75,11 @@ class UsersController extends Controller
         session()->flash('success', '更新资料成功');
 
         return redirect()->route('users.show', $user);
+    }
+
+    public function index()
+    {
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 }
