@@ -30,7 +30,10 @@ class UsersController extends Controller
     // User $user 接收model参数
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     // Request $request 接收表单提交的参数
